@@ -9,13 +9,14 @@ def checkmove(col,row):
      
 class Piece:
     
-    def __init__(self, name = "", color = "", local = "") :
+    def __init__(self, name = "", color = "", local = "", hp = 100) :
         self.name = name
         self.color = color
         self.local = local
         self.stat = "normal"
         self.moves = []
         self.img = self.get_image()
+        self.hp = hp
     
     def clear_moves(self):
         self.moves = []
@@ -46,8 +47,8 @@ class Pawn(Piece):
             )
 class Knight(Piece):
     
-    def __init__(self, color = "", local = "",):
-        Piece.__init__(self,"knight",color,local)
+    def __init__(self, color = "", local = "", hp = 100):
+        Piece.__init__(self,"knight",color,local,hp)
     
     def valid_move(self):
         col,row = self.local
@@ -81,8 +82,8 @@ class Knight(Piece):
     
 class Bishop(Piece):
     
-    def __init__(self, color = "", local = "",):
-        Piece.__init__(self,"bishop",color,local)
+    def __init__(self, color = "", local = "", hp = 100):
+        Piece.__init__(self,"bishop",color,local,hp)
     
     def valid_move(self):
         col,row = self.local
@@ -94,8 +95,8 @@ class Bishop(Piece):
         
 class Rook(Piece):
     
-    def __init__(self, color = "", local = "",):
-        Piece.__init__(self,"rook",color,local)
+    def __init__(self, color = "", local = "", hp = 100):
+        Piece.__init__(self,"rook",color,local,hp)
     
     def valid_move(self):
         col,row = self.local
@@ -107,8 +108,8 @@ class Rook(Piece):
                 
 class Queen(Piece):
     
-    def __init__(self, color = "", local = "",):
-        Piece.__init__(self,"queen",color,local)
+    def __init__(self, color = "", local = "", hp = 100):
+        Piece.__init__(self,"queen",color,local,hp)
     
     def valid_move(self):
         col,row = self.local
@@ -124,8 +125,8 @@ class Queen(Piece):
         
 class King(Piece):
     
-    def __init__(self, color = "", local = "",):
-        Piece.__init__(self,"King",color,local)
+    def __init__(self, color = "", local = "", hp = 100):
+        Piece.__init__(self,"King",color,local,hp)
     
     def valid_move(self):
         col,row = self.local
