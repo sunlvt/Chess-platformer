@@ -1,8 +1,10 @@
+import pygame
+import sys
 # Screen dimensions
-WIDTH = 600
+WIDTH = 700
 HEIGHT = 600
 
 # Board dimensions
 ROWS = 8
 COLS = 8
-SQSIZE = WIDTH // COLS
+SQSIZE = (WIDTH-100) // COLS

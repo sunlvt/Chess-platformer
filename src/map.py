@@ -5,8 +5,6 @@ from const import *
 # from game import Game
 # from square import Square
 
-WIDTH = 600
-HEIGHT = 600
 
 class Map:
     def __init__(self):

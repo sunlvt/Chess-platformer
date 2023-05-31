@@ -23,12 +23,12 @@ class Main:
         dragger = self.game.dragger
         game = self.game
         mat = self.game.mat
-        Pcol, Prow = mat.Pl.piece.local
         while True:
+            Pcol, Prow = mat.Pl.piece.local
             self.map.show_bg(screen)
             game.show_piece(screen)
             game.show_hover(screen)
-            
+            game.show_moves(screen)
             if dragger.dragging:
                 dragger.update_blit(screen)
                 
@@ -42,8 +42,9 @@ class Main:
                     # if clicked square has a piece ?
                     if (clicked_col == Pcol)&(clicked_row == Prow):
                         piece = mat.squares[clicked_row][clicked_col].piece
-                        mat.calc_move()
                         dragger.save_initial(event.pos)
+                        mat.calc_move()
+                        game.show_moves(screen)
                         dragger.drag_piece(piece.piece)
                         
                     # click release
@@ -59,13 +60,13 @@ class Main:
                         for col, row in mat.Pl.piece.moves:
                             if(col == released_col)&(row == released_row):
                                 mat.Pl_move(released_col,  released_row)
+                                
+                                # show methods
+                                game.show_piece(screen)
+                                # next turn
+                                mat.emns_move()
                                 break
-                            # show methods
-                        game.show_piece(screen)
-                        # next turn
-                        game.next_turn()
-                    
-                    mat.emns_move()
+                        
                     dragger.undrag_piece()       
                 
                     

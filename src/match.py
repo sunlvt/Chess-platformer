@@ -22,8 +22,9 @@ class Match:
     
     def add_PL(self,local):
         col, row = local
-        self.Pl = Player(local)
-        self.squares[row][col].piece = Player(local)
+        P = Player(local)
+        self.Pl = P
+        self.squares[row][col].piece = P
                 
     def add_enm(self,data):
         self.enms = []
@@ -84,37 +85,40 @@ class Match:
             pcol, prow = piece.piece.local
             u, d = True, True # up, down is empty?
             for i in range(pcol+1,COLS): #go right
+                
                 if(u):
-                    if(self.squares[i][i].is_empty()): #check up
-                        list.append([i,i])
-                    elif type(self.squares[i][i]) != type(piece): #is team?
-                        list.append([i,i])
-                        u = False
-                    else: u = False
+                    if(prow + (i-pcol) < 8):
+                        if(self.squares[i][prow + (i-pcol)].is_empty()): #check up
+                            list.append([i,i])
+                        elif type(self.squares[i][prow + (i-pcol)]) != type(piece): #is team?
+                            list.append([i,prow + (i-pcol)])
+                            u = False
+                        else: u = False
                 if(d):
-                    if(0 <= 2*prow-i < 8):
-                        if(self.squares[i][2*prow-i].is_empty()): #check down
-                            list.append([i,2*prow-i])
-                        elif type(self.squares[i][2*prow-i]) != type(piece): #is team?
-                            list.append([i,2*prow-i])
+                    if(prow - (i-pcol) > -1):
+                        if(self.squares[i][prow - (i-pcol)].is_empty()): #check down
+                            list.append([i,prow - (i-pcol)])
+                        elif type(self.squares[i][prow - (i-pcol)]) != type(piece): #is team?
+                            list.append([i,prow - (i-pcol)])
                             u = False
                         else: u = False
                 if(u == False)&(d == False): break
             u, d = True, True # up, down is empty?
             for i in range(pcol-1,-1,-1): #go left
                 if(d):
-                    if(self.squares[i][i].is_empty()): #check down
-                        list.append([i,i])
-                    elif type(self.squares[i][i]) != type(piece): #is team?
-                        list.append([i,i])
-                        u = False
-                    else: u = False
+                    if(prow - (pcol - i) > -1):
+                        if(self.squares[i][prow - (pcol - i)].is_empty()): #check down
+                            list.append([i,prow - (pcol - i)])
+                        elif type(self.squares[i][prow - (pcol - i)]) != type(piece): #is team?
+                            list.append([i,prow - (pcol - i)])
+                            u = False
+                        else: u = False
                 if(u):
-                    if(0 <= 2*prow-i < 8):
-                        if(self.squares[i][2*prow-i].is_empty()): #check up
-                            list.append([i,2*prow-i])
-                        elif type(self.squares[i][2*prow-i]) != type(piece): #is team?
-                            list.append([i,2*prow-i])
+                    if(prow + (pcol - i) < 8):
+                        if(self.squares[i][prow + (pcol - i)].is_empty()): #check up
+                            list.append([i,prow + (pcol - i)])
+                        elif type(self.squares[i][prow + (pcol - i)]) != type(piece): #is team?
+                            list.append([i,prow + (pcol - i)])
                             u = False
                         else: u = False
                 if(u == False)&(d == False): break
@@ -196,52 +200,54 @@ class Match:
             
             #Pawn
             if(e.piece.name == "pawn"):
-                col, row = e.piece.local
-                if(self.squares[col][row+1].is_empty()):
-                    e.piece.moves = [[col,row+1]]
-                elif( type(self.squares[col][row+1]) != type(piece)):
-                    e.piece.moves = [[col,row+1]]     
+                e.piece.moves = king_move(e)
+                # col, row = e.piece.local
+                # if(self.squares[col][row+1].is_empty()):
+                #     e.piece.moves = [[col,row+1]]
+                # elif( type(self.squares[col][row+1]) != type(piece)):
+                #     e.piece.moves = [[col,row+1]]     
     
         #player move
         e = self.Pl
-        #Rook
-        if(e.piece.name == "rook"):
-            e.piece.moves = strang_move(e)
+        if e!= None:
+            #Rook
+            if(e.piece.name == "rook"):
+                e.piece.moves = strang_move(e)
+                
+            #Bishop          
+            if(e.piece.name == "bishop"):
+                e.piece.moves = diagonal_move(e)
             
-        #Bishop          
-        if(e.piece.name == "bishop"):
-            e.piece.moves = diagonal_move(e)
-        
-        #Queen
-        if(e.piece.name == "queen"):
-            e.piece.moves = diagonal_move(e)+strang_move(e)
-        
-        #Knight
-        if(e.piece.name == "knight"):
-            e.piece.moves = knight_move(e)
+            #Queen
+            if(e.piece.name == "queen"):
+                e.piece.moves = diagonal_move(e)+strang_move(e)
             
-        #King
-        if(e.piece.name == "king"):
-            e.piece.moves = king_move(e)
-        
-        #Pawn
-        if(e.piece.name == "pawn"):
-            e.piece.moves = king_move(e)
+            #Knight
+            if(e.piece.name == "knight"):
+                e.piece.moves = knight_move(e)
+                
+            #King
+            if(e.piece.name == "king"):
+                e.piece.moves = king_move(e)
+            
+            #Pawn
+            if(e.piece.name == "pawn"):
+                e.piece.moves = king_move(e)                                                        
         
     def emns_move(self):
         Pcol, Prow = self.Pl.piece.local #Player local
         for e in self.enms:
+            if (self.Pl == None): break
             if(len(e.piece.moves)!=0):
                 bcol, brow = e.piece.moves[0] #best move
                 for col,row in e.piece.moves:
                     if(math.sqrt((col-Pcol)**2+(row-Prow)**2) < math.sqrt((bcol-Pcol)**2+(brow-Prow)**2)):
                         bcol, brow = col, row
                 ecol, erow = e.piece.local
-                self.squares[ecol][erow].piece = None
                 e.piece.local = [bcol, brow]
-                self.squares[bcol][brow].piece = e
                 self.enm_capture(bcol,brow)
                 e.piece.clear_moves()
+                self.reload()
                 self.calc_move()      
     
     def enm_capture(self, col, row):
@@ -249,15 +255,28 @@ class Match:
         if(col == pcol)&(row == prow):
             self.Pl = None
     
-    def Pl_move(self,col, row):
-        pcol, prow = self.Pl.piece.local
+    def Pl_move(self,col,row):
         self.Pl_capture(col,row)
-        self.squares[pcol][prow].piece = None
         self.Pl.piece.local = [col,row]
-        self.squares[col][row].piece = self.Pl
+        self.reload()
         self.calc_move()
     
     def Pl_capture(self, col, row):
-        if not self.squares[col][row].is_empty():
-            self.enms.remove(self.squares[col][row].piece)
-            self.squares[col][row].piece = None
+        if not self.squares[row][col].is_empty():
+            for i in range(len(self.enms)):
+                ecol, erow = self.enms[i].piece.local
+                if(ecol == col)&(erow == row):
+                    del self.enms[i]
+                    break
+
+    def reload(self):
+        self.build()
+        for e in self.enms:
+            if e != None:
+                col, row = e.piece.local
+                self.squares[row][col].piece = e
+        p = self.Pl
+        if p != None:
+            col, row = p.piece.local
+            self.squares[row][col].piece = p
+        
