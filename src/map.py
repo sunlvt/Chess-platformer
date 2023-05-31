@@ -21,7 +21,6 @@ class Map:
                 rect = (col * SQSIZE, row * SQSIZE, SQSIZE, SQSIZE)
                 # blit
                 pygame.draw.rect(surface, color, rect)
-
 class Square:
     def __init__(self, row, col, piece=None):
         self.row = row
@@ -35,15 +34,22 @@ class Square:
         return self.piece == None
 
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Chess_Platformer')
-map = Map()
-while True:
-    map.show_bg(screen)
-    for ev in pygame.event.get():
-        if ev.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    pygame.display.update()
+# pygame.init()
+# screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# pygame.display.set_caption('Chess_Platformer')
+# map = Map()
+# while True:
+#     map.show_bg(screen)
+#     piece = Pawn("white",[4,4])
+#     col,row = piece.local
+#     img = pygame.image.load(piece.img)
+#     img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+#     p_rect = img.get_rect(center = img_center)
+#     screen.blit(img, p_rect)
+                        
+#     for ev in pygame.event.get():
+#         if ev.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#     pygame.display.update()
 

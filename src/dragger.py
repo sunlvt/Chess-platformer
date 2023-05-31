@@ -15,15 +15,13 @@ class Dragger:
     # blit method
     
     def update_blit(self, surface):
-        # texture
-        texture = self.piece.img
         # img
-        img = pygame.image.load(texture)
+        img = pygame.image.load(self.piece.img)
         # rect
-        img_center = (self.mouseX, self.mouseY)
-        self.piece.texture_rect = img.get_rect(center=img_center)
+        # img_center = (self.mouseX, self.mouseY)S
+        p_rect = img.get_rect(center=(self.mouseX, self.mouseY))
         # blit
-        surface.blit(img, self.piece.texture_rect)
+        surface.blit(img, p_rect)
 
     # other methods
 
