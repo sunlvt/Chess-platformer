@@ -15,6 +15,7 @@ class Main:
         pygame.display.set_caption('Chess')
         self.map = Map()
         self.game = Game()
+        self.level = 0
 
 
     def run(self):
@@ -22,8 +23,10 @@ class Main:
         screen = self.screen
         dragger = self.game.dragger
         game = self.game
-        mat = self.game.mat
+        mat = self.game.mat      
+        lvl = self.level      
         while True:
+            
             Pcol, Prow = mat.Pl.piece.local
             self.map.show_bg(screen)
             game.show_piece(screen)
@@ -88,13 +91,21 @@ class Main:
                     
                     # changing themes
                     if event.key == pygame.K_t:
-                        pass
+                        mat.Pl.promotion()
                 elif event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            if (mat.Pl == None)|(len(mat.enms)==0):
+            if (mat.Pl == None):
                 pygame.quit()
                 sys.exit()
+            if((len(mat.enms)==0)):
+                lvl+=1
+                if(lvl):
+                    data = data2
+                    self.game = Game()
+                    self.game.mat = Match(data)
+                    game = self.game
+                    mat = self.game.mat 
             pygame.display.update()
 
 

@@ -64,7 +64,7 @@ class Game:
                 # rect
                 rect = (col * SQSIZE, row * SQSIZE, SQSIZE, SQSIZE)
                 # blit
-                pygame.draw.rect(surface, color, rect, width=3)
+                pygame.draw.rect(surface, color, rect, width=1)
 
 
     def show_hover(self, surface):

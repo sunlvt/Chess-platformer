@@ -5,7 +5,6 @@ from const import *
 from entity import*
 from map import*
 
-data_test = [[3,7],["pawn",[1,4]],["knight",[1,0]],["bishop",[2,0]]]
 
 class Match: 
     def __init__(self,data = data_test):
@@ -22,9 +21,8 @@ class Match:
     
     def add_PL(self,local):
         col, row = local
-        P = Player(local)
-        self.Pl = P
-        self.squares[row][col].piece = P
+        self.Pl = Player(local)
+        self.squares[row][col].piece = self.Pl
                 
     def add_enm(self,data):
         self.enms = []
@@ -147,8 +145,10 @@ class Match:
                 col, row = list[i]
                 if(col > 7)|(col < 0):
                     del list[i]
+                    continue
                 if(row > 7)|(row < 0):
                     del list[i]
+                    continue
             return list
         
         #king move
@@ -172,8 +172,10 @@ class Match:
                 col, row = list[i]
                 if(col > 7)|(col < 0):
                     del list[i]
+                    continue
                 if(row > 7)|(row < 0):
                     del list[i]
+                    continue
             return list
         
         #enemy move            

@@ -12,12 +12,23 @@ import os
 data_test = [[3,7],["pawn",[1,4]],["knight",[1,0]],["bishop",[2,0]]]
 
 class Player:
-    
+    Pmt = ["queen","rook","bishop","knight"]
     def __init__(self,local):
         self.piece = Queen("white",local)
     
-    def check_move(self):
-        pass 
+    def promotion(self):
+        col,row = self.piece.local
+        name = self.Pmt.index(self.piece.name)
+        if(name == len(self.Pmt)-1): name = -1
+        name = self.Pmt[name+1]
+        if(name == "rook"):
+            self.piece = Rook("white",[col,row])
+        if(name == "bishop"):
+            self.piece = Bishop("white",[col,row])
+        if(name == "knight"):
+            self.piece = Knight("white",[col,row])
+        if(name == "queen"):
+            self.piece = Queen("white",[col,row])
     
 class Enemy:
     
