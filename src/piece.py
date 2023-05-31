@@ -1,4 +1,5 @@
 import os
+from const import *
 
 def checkmove(col,row):
     if(col > 7)|(col < 0):
@@ -87,7 +88,7 @@ class Bishop(Piece):
     
     def valid_move(self):
         col,row = self.local
-        for i in range(8):
+        for i in range(COLS):
             if(i == col): continue
             self.moves.append([i,col+(i-col)]) #Up-rigt if(i>col) and Down-left if(i<col)
             self.moves.append([i,col-(i-col)]) #Up-left if(i<col) and Down-right if(i>col)
@@ -100,7 +101,7 @@ class Rook(Piece):
     
     def valid_move(self):
         col,row = self.local
-        for i in range(8):
+        for i in range(COLS):
             if(i!=col):
                 self.moves.append([i,row]) #go on row
             if(i!=row):
@@ -113,11 +114,11 @@ class Queen(Piece):
     
     def valid_move(self):
         col,row = self.local
-        for i in range(8):
+        for i in range(COLS):
             if(i == col): continue
             self.moves.append([i,col+(i-col)]) #Up-rigt if(i>col) and Down-left if(i<col)
             self.moves.append([i,col-(i-col)]) #Up-left if(i<col) and Down-right if(i>col)
-        for i in range(8):
+        for i in range(COLS):
             if(i!=col):
                 self.moves.append([i,row]) #go on row
             if(i!=row):

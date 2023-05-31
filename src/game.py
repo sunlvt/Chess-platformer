@@ -1,66 +1,53 @@
 import pygame
 
 from const import *
-# from board import Board
-# from dragger import Dragger
+from entity import *
+from dragger import Dragger
 from config import Config
-from square import Square
+from match import *
+from map import*
 
 class Game:
 
     def __init__(self):
         self.next_player = 'white'
         self.hovered_sqr = None
-        self.board = Board()
         self.dragger = Dragger()
         self.config = Config()
+        self.ett = Entity()
+        self.mat = Match()
 
     # blit methods
+    
+    # def show_moves(self, surface):
+    #     theme = self.config.theme
 
-    def show_pieces(self, surface):
-        for row in range(ROWS):
-            for col in range(COLS):
-                # piece ?
-                if self.board.squares[row][col].has_piece():
-                    piece = self.board.squares[row][col].piece
-                    
-                    # all pieces except dragger piece
-                    if piece is not self.dragger.piece:
-                        piece.set_texture(size=80)
-                        img = pygame.image.load(piece.texture)
-                        img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
-                        piece.texture_rect = img.get_rect(center=img_center)
-                        surface.blit(img, piece.texture_rect)
+    #     if self.dragger.dragging:
+    #         piece = self.dragger.piece
 
-    def show_moves(self, surface):
-        theme = self.config.theme
+    #         # loop all valid moves
+    #         for move in piece.moves:
+    #             # color
+    #             color = theme.moves.light if (move.final.row + move.final.col) % 2 == 0 else theme.moves.dark
+    #             # rect
+    #             rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
+    #             # blit
+    #             pygame.draw.rect(surface, color, rect)
 
-        if self.dragger.dragging:
-            piece = self.dragger.piece
+    # def show_last_move(self, surface):
+    #     theme = self.config.theme
 
-            # loop all valid moves
-            for move in piece.moves:
-                # color
-                color = theme.moves.light if (move.final.row + move.final.col) % 2 == 0 else theme.moves.dark
-                # rect
-                rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
-                # blit
-                pygame.draw.rect(surface, color, rect)
+    #     if self.board.last_move:
+    #         initial = self.board.last_move.initial
+    #         final = self.board.last_move.final
 
-    def show_last_move(self, surface):
-        theme = self.config.theme
-
-        if self.board.last_move:
-            initial = self.board.last_move.initial
-            final = self.board.last_move.final
-
-            for pos in [initial, final]:
-                # color
-                color = theme.trace.light if (pos.row + pos.col) % 2 == 0 else theme.trace.dark
-                # rect
-                rect = (pos.col * SQSIZE, pos.row * SQSIZE, SQSIZE, SQSIZE)
-                # blit
-                pygame.draw.rect(surface, color, rect)
+    #         for pos in [initial, final]:
+    #             # color
+    #             color = theme.trace.light if (pos.row + pos.col) % 2 == 0 else theme.trace.dark
+    #             # rect
+    #             rect = (pos.col * SQSIZE, pos.row * SQSIZE, SQSIZE, SQSIZE)
+    #             # blit
+    #             pygame.draw.rect(surface, color, rect)
 
     def show_hover(self, surface):
         if self.hovered_sqr:
@@ -77,7 +64,7 @@ class Game:
         self.next_player = 'white' if self.next_player == 'black' else 'black'
 
     def set_hover(self, row, col):
-        self.hovered_sqr = self.board.squares[row][col]
+        self.hovered_sqr = self.mat.squares[row][col]
 
     def change_theme(self):
         self.config.change_theme()

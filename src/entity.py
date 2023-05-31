@@ -22,9 +22,7 @@ class Player:
 class Enemy:
     
     def __init__(self, data = []):
-        self.enms = []
-        self.setup(data)
-        self.lc_list = self.all_local() 
+        self.piece = None
         
     def all_local(self):
         list = []
@@ -35,27 +33,22 @@ class Enemy:
         
     def check_move(self):
         for e in self.enms:
-            e.moves = [m for m in e.valid_move() if m not in self.lc_list]
+            e.moves = [m for m in e.valid_move() if m not in self.lc_list] #remove team move
     
     def add_piece(self,name,local):
         if (name == "pawn"):
-            self.enms.append(Pawn("black",local)) 
+            self.piece = (Pawn("black",local)) 
         if (name == "rook"):
-            self.enms.append(Rook("black",local))
+            self.piece = (Rook("black",local))
         if (name == "knight"):
-            self.enms.append(Knight("black",local))
+            self.piece = (Knight("black",local))
         if (name == "bishop"):
-            self.enms.append(Bishop("black",local))
+            self.piece = (Bishop("black",local))
         if (name == "queen"):
-            self.enms.append(Queen("black",local))
+            self.piece = (Queen("black",local))
         if (name == "king"):
-            self.enms.append(King("black",local))
+            self.piece = (King("black",local))
     
-    def setup(self,data):
-        for name,local in data:
-            self.add_piece(name,local)
-        self.all_local()
-        self.check_move()
         
 class Entity:
     
@@ -82,6 +75,8 @@ class Entity:
                 for col,row in e.moves:
                     if(math.sqrt((col-Pcol)**2+(row-Prow)**2) < math.sqrt((bcol-Pcol)**2+(brow-Prow)**2)):
                         bcol, brow = col, row
+                e.local = [bcol, brow]
+                e.clear_moves()
                 self.enm.all_local()
                 self.enm.check_move()
                 
