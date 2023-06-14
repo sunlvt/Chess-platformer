@@ -1,20 +1,11 @@
-import pygame
-import math
 from const import *
-# from square import Square
 from piece import *
 from dragger import *
-# from move import Move
-# from sound import Sound
-import copy
-import os
-
-data_test = [[3,7],["pawn",[1,4]],["knight",[1,0]],["bishop",[2,0]]]
 
 class Player:
-    Pmt = ["queen","rook","bishop","knight"]
+    Pmt = ["pawn","queen","rook","bishop","knight"]
     def __init__(self,local):
-        self.piece = Queen("white",local)
+        self.piece = Pawn("white",local)
     
     def promotion(self):
         col,row = self.piece.local

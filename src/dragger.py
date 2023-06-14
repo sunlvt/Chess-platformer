@@ -18,7 +18,6 @@ class Dragger:
         # img
         img = pygame.image.load(self.piece.img)
         # rect
-        # img_center = (self.mouseX, self.mouseY)S
         p_rect = img.get_rect(center=(self.mouseX, self.mouseY))
         # blit
         surface.blit(img, p_rect)
