@@ -20,6 +20,8 @@ class Player:
             self.piece = Knight("white",[col,row])
         if(name == "queen"):
             self.piece = Queen("white",[col,row])
+        if(name == "pawn"):
+            self.piece = Pawn("white",[col,row])
     
 class Enemy:
     

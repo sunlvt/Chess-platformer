@@ -46,7 +46,7 @@ class Game:
                 fornt = pygame.font.SysFont('monospace', 20, bold=True)
                 local = fornt.render(str(self.mat.PL_turn),1,"lime")
                 pos = local.get_rect()
-                pos.center = img_center
+                pos.center = (col * SQSIZE + 10,row * SQSIZE + 10)
                 surface.blit(local,pos)
             # show_local(col,row,surface)
         
