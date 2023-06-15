@@ -139,6 +139,7 @@ class Main:
                     # changing themes
                     if event.key == pygame.K_t:
                         mat.Pl.promotion()
+                        dragger.undrag_piece()
                     if event.key == pygame.K_r:
                         mat.reset()
                 elif event.type == pygame.QUIT:
